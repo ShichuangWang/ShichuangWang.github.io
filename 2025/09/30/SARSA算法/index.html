@@ -28,7 +28,7 @@
 <meta property="og:description" content="回顾折扣回报： \[ U_{t}&#x3D;R_{t}+\gamma \cdot U_{t+1} \tag{1} \] 假设 \(R_t\) 依赖于 \((S_{t},A_{t},S_{t+1})\),则： \[ \begin{align} \\ Q_{\pi}(s_t,a_t)&amp;&#x3D;\mathbb{E}[U_t|s_t,a_t] \\ &amp;&#x3D;\mathbb{E}[R_t+\gamm">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-09-30T15:53:11.744Z">
-<meta property="article:modified_time" content="2025-09-29T02:24:37.221Z">
+<meta property="article:modified_time" content="2025-09-30T16:26:13.067Z">
 <meta property="article:author" content="Strung">
 <meta name="twitter:card" content="summary">
 
@@ -180,7 +180,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-09-29 10:24:37" itemprop="dateModified" datetime="2025-09-29T10:24:37+08:00">2025-09-29</time>
+                <time title="修改时间：2025-10-01 00:26:13" itemprop="dateModified" datetime="2025-10-01T00:26:13+08:00">2025-10-01</time>
               </span>
 
           
@@ -220,28 +220,39 @@ class="math inline">\(R_t\)</span> 和 <span
 class="math inline">\(Q_{\pi}(S_{t+1},A_{t+1})\)</span>,得到TD target：
 <span class="math display">\[
 y_{t}=r_{t}+\gamma \cdot Q_{\pi}(s_{t+1},a_{t+1})\tag{4}
-\]</span> # 表格学习 1. 观察状态转移 <span
-class="math inline">\((s_{t},a_{t},r_{t},s_{t+1})\)</span> 2.
-根据策略函数 <span class="math inline">\(\pi(\cdot|s_{t+1})\)</span>
-抽样得到动作 <span class="math inline">\(a_{t+1}\)</span> 3. TD target :
-<span class="math inline">\(y_t=r_{t}+\gamma\cdot
-Q_{\pi}(s_{t+1},a_{t+1})\)</span> 4. TD error : <span
-class="math inline">\(\delta_{t}=Q_{\pi}(s_{t},a_{t})-y_{t}\)</span> 5.
-更新：<span class="math inline">\(Q_{\pi}(s_{t},a_{t})\leftarrow \space
-Q_{\pi}(s_{t},a_{t})-\alpha\cdot \delta_{t}\)</span> # 神经网络学习 1.
-使用价值网络 <span class="math inline">\(q(s,a;w)\)</span> 近似价值函数
-<span class="math inline">\(Q_{\pi}(s,a)\)</span> ，其中 <span
-class="math inline">\(w\)</span> 是网络参数 2. TD target ： <span
-class="math inline">\(y_{t}=r_{t}+\gamma \cdot
-q_{s_{t+1},a_{t+1};w}\)</span> 3. TD error : <span
-class="math inline">\(\delta_{t}=q(s_{t},a_{t};w)-y_{t}\)</span> 4. Loss
-: <span class="math inline">\({\delta_{t}^{2}}\small/{2}\)</span> 5.
-求梯度： <span
+\]</span></p>
+<h1 id="表格学习">表格学习</h1>
+<ol type="1">
+<li>观察状态转移 <span
+class="math inline">\((s_{t},a_{t},r_{t},s_{t+1})\)</span></li>
+<li>根据策略函数 <span class="math inline">\(\pi(\cdot|s_{t+1})\)</span>
+抽样得到动作 <span class="math inline">\(a_{t+1}\)</span></li>
+<li>TD target : <span class="math inline">\(y_t=r_{t}+\gamma\cdot
+Q_{\pi}(s_{t+1},a_{t+1})\)</span></li>
+<li>TD error : <span
+class="math inline">\(\delta_{t}=Q_{\pi}(s_{t},a_{t})-y_{t}\)</span></li>
+<li>更新：<span class="math inline">\(Q_{\pi}(s_{t},a_{t})\leftarrow
+\space Q_{\pi}(s_{t},a_{t})-\alpha\cdot \delta_{t}\)</span></li>
+</ol>
+<h1 id="神经网络学习">神经网络学习</h1>
+<ol type="1">
+<li>使用价值网络 <span class="math inline">\(q(s,a;w)\)</span>
+近似价值函数 <span class="math inline">\(Q_{\pi}(s,a)\)</span> ，其中
+<span class="math inline">\(w\)</span> 是网络参数</li>
+<li>TD target ： <span class="math inline">\(y_{t}=r_{t}+\gamma \cdot
+q_{s_{t+1},a_{t+1};w}\)</span></li>
+<li>TD error : <span
+class="math inline">\(\delta_{t}=q(s_{t},a_{t};w)-y_{t}\)</span></li>
+<li>Loss : <span
+class="math inline">\({\delta_{t}^{2}}\small/{2}\)</span></li>
+<li>求梯度： <span
 class="math inline">\(\frac{\partial{\small{\delta_{t}^{2}}\small/{2}}}{\partial
 w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
-\space w}\)</span> 6. 梯度下降： <span class="math inline">\(w
-\leftarrow \space w-\alpha \cdot \delta_{t}\cdot\frac{\partial
-\space{q(s_{t},a_{t};w)}}{\partial \space w}\)</span> 7.</p>
+\space w}\)</span></li>
+<li>梯度下降： <span class="math inline">\(w \leftarrow \space w-\alpha
+\cdot \delta_{t}\cdot\frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
+\space w}\)</span></li>
+</ol>
 
     </div>
 
@@ -257,13 +268,10 @@ w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2025/09/22/URDF-Export/" rel="prev" title="URDF-Export">
-      <i class="fa fa-chevron-left"></i> URDF-Export
+    <a href="/2025/09/30/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" rel="prev" title="强化学习笔记（一）强化学习中的基本概念">
+      <i class="fa fa-chevron-left"></i> 强化学习笔记（一）强化学习中的基本概念
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2025/09/30/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" rel="next" title="">
-       <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -322,6 +330,7 @@ w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A8%E6%A0%BC%E5%AD%A6%E4%B9%A0"><span class="nav-text">表格学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0"><span class="nav-text">神经网络学习</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
