@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="状态(state)：描述了智能体与环境的相对状况，所有状态的集合被称为状态空间（state space），表示为 \(S&#x3D;\left\{s_{1},s_{2},\dots,s_{n}\right\}\) 动作（action）：智能体可以执行的行为，所有动作的集合称之为动作空间（action space），表示为 \(A&#x3D;\left\{a_{1},a_{2},\dots,a_{n}\rig">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Strung&#39;s Blog">
+<meta property="og:url" content="http://example.com/2025/09/30/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="Strung&#39;s Blog">
+<meta property="og:description" content="状态(state)：描述了智能体与环境的相对状况，所有状态的集合被称为状态空间（state space），表示为 \(S&#x3D;\left\{s_{1},s_{2},\dots,s_{n}\right\}\) 动作（action）：智能体可以执行的行为，所有动作的集合称之为动作空间（action space），表示为 \(A&#x3D;\left\{a_{1},a_{2},\dots,a_{n}\rig">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-09-30T15:53:11.746Z">
+<meta property="article:modified_time" content="2025-09-29T09:35:12.727Z">
+<meta property="article:author" content="Strung">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2025/09/30/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | Strung's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Strung's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/09/30/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.webp">
+      <meta itemprop="name" content="Strung">
+      <meta itemprop="description" content="越睡不着越想睡着越睡不着">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Strung's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-09-30 23:53:11" itemprop="dateCreated datePublished" datetime="2025-09-30T23:53:11+08:00">2025-09-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-09-29 17:35:12" itemprop="dateModified" datetime="2025-09-29T17:35:12+08:00">2025-09-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><p><strong>状态(state)</strong>：描述了智能体与环境的相对状况，所有状态的集合被称为状态空间（state
+space），表示为 <span
+class="math inline">\(S=\left\{s_{1},s_{2},\dots,s_{n}\right\}\)</span></p></li>
+<li><p><strong>动作（action）</strong>：智能体可以执行的行为，所有动作的集合称之为动作空间（action
+space），表示为 <span
+class="math inline">\(A=\left\{a_{1},a_{2},\dots,a_{n}\right\}\)</span>,不同的状态可以有不同的动作空间，如
+<span
+class="math inline">\(A(s_{1})=\left\{a_{2},a_{3},a_{6}\right\}\)</span></p></li>
+<li><p><strong>状态转移</strong>：当执行一个动作时，智能体可能从一个状态转移到另一个状态，这样的过程被称为状态转移（state
+transition）。例如智能体当前处于状态 <span
+class="math inline">\(s_1\)</span> 并且执行动作 <span
+class="math inline">\(a_2\)</span> 后状态变为 <span
+class="math inline">\(s_3\)</span> ，此过程可以表示为: <span
+class="math display">\[
+s_{1}\xrightarrow{a_{2}}s_{3}
+\]</span> 在数学上，状态转移过程可以通过条件概率来描述， <span
+class="math inline">\(p(s^{\prime}|s,a)\)</span> 表示在状态 <span
+class="math inline">\(s\)</span> 下执行动作 <span
+class="math inline">\(a\)</span> 后状态转移到 <span
+class="math inline">\(s^{\prime}\)</span> 的概率。</p></li>
+<li><p><strong>策略</strong>
+（policy）：智能体如何根据观测到的状态做出决策，即如何从动作空间中选取一个动作。策略可以使用条件概率来描述，<span
+class="math inline">\(\pi(a|s)\)</span> 表示在状态 <span
+class="math inline">\(s\)</span> 采取动作 <span
+class="math inline">\(a\)</span> 的概率。</p></li>
+<li><p><strong>奖励（reward</strong>）：当在一个状态执行一个动作之后，环境返回给智能体一个数值
+<span class="math inline">\(r\)</span> ，通常来说，假设奖励是当前状态
+<span class="math inline">\(s\)</span> 、当前动作 <span
+class="math inline">\(a\)</span> 、下一时刻的状态 <span
+class="math inline">\(s^{\prime}\)</span> 的函数，记为 <span
+class="math inline">\(r(s,a,s^\prime)\)</span></p></li>
+<li><p><strong>轨迹（trajectory）</strong>：，一条轨迹指的是一个“状态-动作-奖励”
+的链条，如： <span class="math display">\[
+s_{1}\xrightarrow[r_{1}]{a_{1}}s_{2}
+\xrightarrow[r_{2}]{a_{2}}s_{3}
+\xrightarrow[r_{3}]{a_{3}}s_{4}
+\xrightarrow[r_{4}]{a_{4}}s_{5}
+\xrightarrow[\dots]{\dots}s_{n-1}
+\xrightarrow[r_{n-1}]{a_{n-1}}s_{n}
+\]</span></p></li>
+<li><p><strong>回报（return）</strong>：回报即累积奖励，即： <span
+class="math display">\[
+return = r_{1}+r_{2}+r_{3}+\dots+r_{n}
+\]</span>
+但是对于无限长的轨迹，直接对奖励进行累加可能会发散到无穷，所以引入折扣回报（discounted
+return），令 <span class="math inline">\(\gamma \in(0,1)\)</span>
+为折扣因子（discount rate），折扣回报是素有折扣奖励的总和，即： <span
+class="math display">\[
+  discounted\space return=r_{1}+\gamma \cdot r_{2}
+  +\gamma^2 \cdot r_{3}
+  +\gamma^3 \cdot r_{4}
+  +\dots
+  +\gamma^n \cdot r_{n}
+\]</span>
+引入折扣因子使得我们可以考虑无限长的轨迹而不用担心回报会发散到无穷，同时折扣因子可以用来调整对近期或远期奖励的重视程度。</p></li>
+<li><p><strong>回合（episode）</strong>：当执行一个策略进而与环境交互时，智能体从初始状态开始到终止状态停止的过程被称为一个回合。回合通常被认为是一条有限长的轨迹。如果一个任务最多有有限步，那么这样的任务称为回合制任务；如果一个任务没有终止状态，则意味着智能体与环境的交互永不停止，这种任务被称为持续性任务，有两种方法将回合制任务转化为持续性任务。</p>
+<ol type="1">
+<li><strong>方法一</strong>
+将终止状态视为一个特殊状态，专门设计其动作空间或状态转移，从而使智能体永远停留在此状态，这样的状态被称为吸收状态，即一旦达到这样的状态就会一直停留在该状态。</li>
+<li><strong>方法二</strong>
+可以将终止状态视为一个普通状态，即将其与其他状态一视同仁，此时智能体可能会离开该状态并再次回来，比如设计每次到达该状态都会获得正奖励。</li>
+</ol></li>
+<li><p><strong>马尔可夫决策过程（Markov decision process，MDP）</strong>
+马尔可夫决策过程是描述随机动态系统的一般框架，主要涉及以下关键要素：</p>
+<ul>
+<li>集合：
+<ol type="1">
+<li>状态空间：所有状态的集合，记为 <span
+class="math inline">\(S\)</span></li>
+<li>动作空间：与每个状态 <span class="math inline">\(s \in S\)</span>
+相关联的所有动作的集合，记为 <span
+class="math inline">\(A(s)\)</span></li>
+<li>奖励集合：与 <span class="math inline">\((s,a)\)</span>
+相关联的所有奖励的集合，记为 <span
+class="math inline">\(R(s,a)\)</span></li>
+</ol></li>
+<li>模型：
+<ol type="1">
+<li>状态转移概率：在状态 <span class="math inline">\(s\)</span> 采取动作
+<span class="math inline">\(a\)</span> 时，智能体转移到状态 <span
+class="math inline">\(s^ \prime\)</span> 的概率为 <span
+class="math inline">\(p(s^\prime|s,a)\)</span> ，对于任意的 <span
+class="math inline">\((s,a)\)</span> ，都有 <span
+class="math inline">\(\sum_{s^\prime \in S} p(s^\prime
+|s,a)=1\)</span></li>
+<li>奖励概率：在状态 <span class="math inline">\(s\)</span> 采取动作
+<span class="math inline">\(a\)</span> 时，智能体获得奖励 <span
+class="math inline">\(r\)</span> 的概率是 <span
+class="math inline">\(p(r|s,a)\)</span> 。对于任意 <span
+class="math inline">\((s,a)\)</span> ，都有 <span
+class="math inline">\(\\sum_{r \in R(s,a)}p(r|s,a)=1\)</span>成立。</li>
+</ol></li>
+<li>策略：在状态 <span class="math inline">\(s\)</span> ，智能体采取动作
+<span class="math inline">\(a\)</span> 的概率是 <span
+class="math inline">\(\pi(a|s)\)</span>。对于任意 <span
+class="math inline">\(s \in S\)</span> ,都有 <span
+class="math inline">\(\sum_{a \in A(s)} \pi(a|s)=1\)</span>。</li>
+<li>马尔可夫性质：指的是随机过程中的无记忆性质，在数学上表示为： <span
+class="math display">\[
+\begin{align}
+p(s_{t+1}|s_{t},a_{t},s_{t-1},a_{t-1},\dots,s_{0},a_{0})=p(s_{t+1}|s_{t},a_{t})
+\\
+p(r_{t+1}|s_{t},a_{t},s_{t-1},a_{t-1},\dots,s_{0},a_{0})=p(r_{t+1}|s_{t},a_{t})
+\end{align}
+\]</span>
+上式表示下一个状态和奖励仅依赖当前时刻的状态和动作，而与之前时刻的状态和动作无关。
+<strong>Tips</strong>： 当前的奖励 <span
+class="math inline">\(r\)</span> 实际上依赖于当前状态 <span
+class="math inline">\(s\)</span> 、当前动作 <span
+class="math inline">\(a\)</span> 、下一个状态 <span
+class="math inline">\(s^\prime\)</span> ，然而，因为下一状态 <span
+class="math inline">\(s^\prime\)</span> 依赖于 <span
+class="math inline">\(s\)</span> 、 <span
+class="math inline">\(a\)</span> ，所以可以等效将 <span
+class="math inline">\(r\)</span> 写为 <span
+class="math inline">\(s\)</span> 和 <span
+class="math inline">\(a\)</span> 的函数： <span class="math display">\[
+  p(r|s,a)=\sum_{s^\prime}p(r|s,a,s^\prime)p(s^\prime|s,a)
+\]</span></li>
+</ul></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/09/30/SARSA%E7%AE%97%E6%B3%95/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/09/30/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%96%B9%E6%B3%95/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Strung"
+      src="/images/avatar.webp">
+  <p class="site-author-name" itemprop="name">Strung</p>
+  <div class="site-description" itemprop="description">越睡不着越想睡着越睡不着</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Strung</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
