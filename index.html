@@ -273,7 +273,7 @@ mjx-container[display="true"] + br {
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/09/30/SARSA%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">未命名</a>
+            <a href="/2025/09/30/SARSA%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">强化学习笔记--SARSA算法</a>
         </h2>
 
         <div class="post-meta">
@@ -283,14 +283,14 @@ mjx-container[display="true"] + br {
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2025-09-30 23:53:11" itemprop="dateCreated datePublished" datetime="2025-09-30T23:53:11+08:00">2025-09-30</time>
+              <time title="创建时间：2025-09-30 09:02:06" itemprop="dateCreated datePublished" datetime="2025-09-30T09:02:06+08:00">2025-09-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-10-01 00:26:13" itemprop="dateModified" datetime="2025-10-01T00:26:13+08:00">2025-10-01</time>
+                <time title="修改时间：2025-10-01 00:31:40" itemprop="dateModified" datetime="2025-10-01T00:31:40+08:00">2025-10-01</time>
               </span>
 
           
@@ -304,66 +304,15 @@ mjx-container[display="true"] + br {
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>回顾折扣回报： <span class="math display">\[
-U_{t}=R_{t}+\gamma \cdot U_{t+1} \tag{1}
-\]</span> 假设 <span class="math inline">\(R_t\)</span> 依赖于 <span
-class="math inline">\((S_{t},A_{t},S_{t+1})\)</span>,则： <span
-class="math display">\[
-\begin{align} \\
-Q_{\pi}(s_t,a_t)&amp;=\mathbb{E}[U_t|s_t,a_t]
-\\
-&amp;=\mathbb{E}[R_t+\gamma \cdot U_{t+1}|s_t,a_t]
-\\
-&amp;=\mathbb{E}[R_t|s_t,a_t]+\gamma \cdot \mathbb{E}[U_{t+1}|s_t,a_t]
-\\
-&amp;=\mathbb{E}[R_t|s_t,a_t]+\gamma \cdot
-\mathbb{E}[Q_{\pi}(S_{t+1},A_{t+1})|s_t,a_t]
-\\
-&amp;=\mathbb{E}[R_{t}+\gamma\cdot
-Q_{\pi}(S_{t+1},A_NaN)|s_{t},a_{t}]
-\end{align}\tag{2}\]</span> Tips： <span class="math display">\[
-Q_{\pi}(S_{t+1},A_{t+1})=\mathbb{E}_{S_{t+2},A_{t+2},\dots,S_{n},A{n}}
-[U_{t+1}|S_{t+1},A_{t+1}]\tag{3}
-\]</span> 使用观测值 <span class="math inline">\(r_t\)</span> 和 <span
-class="math inline">\(Q_{\pi}(s_{t+1},a_{t+1})\)</span> 近似估计 <span
-class="math inline">\(R_t\)</span> 和 <span
-class="math inline">\(Q_{\pi}(S_{t+1},A_{t+1})\)</span>,得到TD target：
-<span class="math display">\[
-y_{t}=r_{t}+\gamma \cdot Q_{\pi}(s_{t+1},a_{t+1})\tag{4}
-\]</span></p>
-<h1 id="表格学习">表格学习</h1>
-<ol type="1">
-<li>观察状态转移 <span
-class="math inline">\((s_{t},a_{t},r_{t},s_{t+1})\)</span></li>
-<li>根据策略函数 <span class="math inline">\(\pi(\cdot|s_{t+1})\)</span>
-抽样得到动作 <span class="math inline">\(a_{t+1}\)</span></li>
-<li>TD target : <span class="math inline">\(y_t=r_{t}+\gamma\cdot
-Q_{\pi}(s_{t+1},a_{t+1})\)</span></li>
-<li>TD error : <span
-class="math inline">\(\delta_{t}=Q_{\pi}(s_{t},a_{t})-y_{t}\)</span></li>
-<li>更新：<span class="math inline">\(Q_{\pi}(s_{t},a_{t})\leftarrow
-\space Q_{\pi}(s_{t},a_{t})-\alpha\cdot \delta_{t}\)</span></li>
-</ol>
-<h1 id="神经网络学习">神经网络学习</h1>
-<ol type="1">
-<li>使用价值网络 <span class="math inline">\(q(s,a;w)\)</span>
-近似价值函数 <span class="math inline">\(Q_{\pi}(s,a)\)</span> ，其中
-<span class="math inline">\(w\)</span> 是网络参数</li>
-<li>TD target ： <span class="math inline">\(y_{t}=r_{t}+\gamma \cdot
-q_{s_{t+1},a_{t+1};w}\)</span></li>
-<li>TD error : <span
-class="math inline">\(\delta_{t}=q(s_{t},a_{t};w)-y_{t}\)</span></li>
-<li>Loss : <span
-class="math inline">\({\delta_{t}^{2}}\small/{2}\)</span></li>
-<li>求梯度： <span
-class="math inline">\(\frac{\partial{\small{\delta_{t}^{2}}\small/{2}}}{\partial
-w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
-\space w}\)</span></li>
-<li>梯度下降： <span class="math inline">\(w \leftarrow \space w-\alpha
-\cdot \delta_{t}\cdot\frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
-\space w}\)</span></li>
-</ol>
-
+          <p>SARSA算法</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/09/30/SARSA%E7%AE%97%E6%B3%95/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -413,7 +362,7 @@ w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-10-01 00:24:04" itemprop="dateModified" datetime="2025-10-01T00:24:04+08:00">2025-10-01</time>
+                <time title="修改时间：2025-10-01 00:28:44" itemprop="dateModified" datetime="2025-10-01T00:28:44+08:00">2025-10-01</time>
               </span>
 
           
@@ -431,6 +380,78 @@ w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2025/09/30/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/09/30/%E7%8A%B6%E6%80%81%E5%80%BC%E4%B8%8E%E8%B4%9D%E5%B0%94%E6%9B%BC%E6%96%B9%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.webp">
+      <meta itemprop="name" content="Strung">
+      <meta itemprop="description" content="越睡不着越想睡着越睡不着">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Strung's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/09/30/%E7%8A%B6%E6%80%81%E5%80%BC%E4%B8%8E%E8%B4%9D%E5%B0%94%E6%9B%BC%E6%96%B9%E7%A8%8B/" class="post-title-link" itemprop="url">强化学习笔记（二）状态价值函数与贝尔曼公式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-09-30 09:02:06" itemprop="dateCreated datePublished" datetime="2025-09-30T09:02:06+08:00">2025-09-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-10-01 00:50:24" itemprop="dateModified" datetime="2025-10-01T00:50:24+08:00">2025-10-01</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>强化学习中的状态价值函数与贝尔曼公式推导</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/09/30/%E7%8A%B6%E6%80%81%E5%80%BC%E4%B8%8E%E8%B4%9D%E5%B0%94%E6%9B%BC%E6%96%B9%E7%A8%8B/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -526,78 +547,6 @@ w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/09/30/%E7%8A%B6%E6%80%81%E5%80%BC%E4%B8%8E%E8%B4%9D%E5%B0%94%E6%9B%BC%E6%96%B9%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.webp">
-      <meta itemprop="name" content="Strung">
-      <meta itemprop="description" content="越睡不着越想睡着越睡不着">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Strung's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/09/30/%E7%8A%B6%E6%80%81%E5%80%BC%E4%B8%8E%E8%B4%9D%E5%B0%94%E6%9B%BC%E6%96%B9%E7%A8%8B/" class="post-title-link" itemprop="url">强化学习笔记（二）状态价值函数与贝尔曼公式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-09-30 09:02:06" itemprop="dateCreated datePublished" datetime="2025-09-30T09:02:06+08:00">2025-09-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-10-01 00:24:24" itemprop="dateModified" datetime="2025-10-01T00:24:24+08:00">2025-10-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>强化学习中的状态价值函数与贝尔曼公式推导</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/09/30/%E7%8A%B6%E6%80%81%E5%80%BC%E4%B8%8E%E8%B4%9D%E5%B0%94%E6%9B%BC%E6%96%B9%E7%A8%8B/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/09/22/URDF-Export/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -612,7 +561,7 @@ w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/09/22/URDF-Export/" class="post-title-link" itemprop="url">URDF-Export</a>
+            <a href="/2025/09/22/URDF-Export/" class="post-title-link" itemprop="url">使用SolidWorks导出单个零件的URDF文件</a>
         </h2>
 
         <div class="post-meta">
@@ -629,7 +578,7 @@ w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-09-25 17:06:19" itemprop="dateModified" datetime="2025-09-25T17:06:19+08:00">2025-09-25</time>
+                <time title="修改时间：2025-10-01 00:51:54" itemprop="dateModified" datetime="2025-10-01T00:51:54+08:00">2025-10-01</time>
               </span>
 
           
@@ -774,6 +723,9 @@ w}=\delta_{t}\cdot \frac{\partial \space{q(s_{t},a_{t};w)}}{\partial
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
+
+<script src="/js/code-copy.js"></script>
+
 
         
 
