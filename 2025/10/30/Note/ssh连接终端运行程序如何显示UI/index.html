@@ -32,7 +32,7 @@
 <meta property="og:description" content="A（Windows 11)上通过 SSH 连接到B（Ubuntu 20.04 Desktop） 在 SSH 终端中运行一个有图形界面的程序（比如 Qt、Tkinter、Matplotlib GUI、Isaac Sim等），程序在 B 的显示器上不会弹出界面。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-10-29T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-30T04:17:17.966Z">
+<meta property="article:modified_time" content="2025-10-31T06:28:34.638Z">
 <meta property="article:author" content="Strung">
 <meta name="twitter:card" content="summary">
 
@@ -288,10 +288,16 @@ mjx-container[display="true"] + br {
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2025-10-30 00:00:00 / 修改时间：12:17:17" itemprop="dateCreated datePublished" datetime="2025-10-30T00:00:00+08:00">2025-10-30</time>
+              <time title="创建时间：2025-10-30 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-30T00:00:00+08:00">2025-10-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-10-31 14:28:34" itemprop="dateModified" datetime="2025-10-31T14:28:34+08:00">2025-10-31</time>
+              </span>
 
           
             <div class="post-description">A（Windows 11)上通过 SSH 连接到B（Ubuntu 20.04 Desktop） 在 SSH 终端中运行一个有图形界面的程序（比如 Qt、Tkinter、Matplotlib GUI、Isaac Sim等），程序在 B 的显示器上不会弹出界面。</div>
@@ -366,7 +372,8 @@ A（Windows）上</h3>
 <li><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/vcxsrv/">VcXsrv</a></li>
 <li><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/xming/">Xming</a></li>
 </ul>
-<p>安装并启动它。 #### 2️⃣ SSH 登录时启用 X11 转发：</p>
+<p>安装并启动它。</p>
+<h4 id="ssh-登录时启用-x11-转发">2️⃣ SSH 登录时启用 X11 转发：</h4>
 <p>在 Windows 的 PowerShell / CMD / WSL / MobaXterm 中：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -X username@B_ip</span><br></pre></td></tr></table></figure>
 <p>或者更安全的：</p>
@@ -476,7 +483,7 @@ TigerVNC、RealVNC）</strong>：跨平台图形访问。</p></li>
       <div class="post-toc-wrap sidebar-panel">
           <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E7%8E%B0%E8%B1%A1%E6%8F%8F%E8%BF%B0"><span class="nav-text">🧩 一、现象描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90"><span class="nav-text">🚫 二、原因分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh-%E9%BB%98%E8%AE%A4%E7%A6%81%E6%AD%A2-gui-%E6%98%BE%E7%A4%BA"><span class="nav-text">1️⃣ SSH 默认禁止 GUI 显示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%87%A0%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">🧠 三、几种可行的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88-1%E8%AE%A9-ssh-%E4%BC%9A%E8%AF%9D%E7%BB%A7%E6%89%BF%E6%9C%AC%E5%9C%B0%E6%98%BE%E7%A4%BA%E5%9C%A8-b-%E5%B1%8F%E5%B9%95%E4%B8%8A%E6%98%BE%E7%A4%BA"><span class="nav-text">✅ 方案 1：让 SSH
 会话继承本地显示（在 B 屏幕上显示）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%81%9A%E6%B3%95"><span class="nav-text">做法：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#section"><span class="nav-text">1xhost +SI:localuser:$(whoami)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88-2%E8%AE%A9-gui-%E6%98%BE%E7%A4%BA%E5%9C%A8-awindows%E4%B8%8A"><span class="nav-text">✅ 方案 2：让 GUI 显示在
-A（Windows）上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#windows-%E4%BE%A7%E5%87%86%E5%A4%87"><span class="nav-text">1️⃣ Windows 侧准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8-ubuntu-%E4%B8%8A%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="nav-text">3️⃣ 在 Ubuntu 上运行程序：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88-3%E4%BD%BF%E7%94%A8%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2rdp-%E6%88%96-vnc"><span class="nav-text">✅ 方案 3：使用远程桌面（RDP 或
+A（Windows）上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#windows-%E4%BE%A7%E5%87%86%E5%A4%87"><span class="nav-text">1️⃣ Windows 侧准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ssh-%E7%99%BB%E5%BD%95%E6%97%B6%E5%90%AF%E7%94%A8-x11-%E8%BD%AC%E5%8F%91"><span class="nav-text">2️⃣ SSH 登录时启用 X11 转发：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8-ubuntu-%E4%B8%8A%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="nav-text">3️⃣ 在 Ubuntu 上运行程序：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88-3%E4%BD%BF%E7%94%A8%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2rdp-%E6%88%96-vnc"><span class="nav-text">✅ 方案 3：使用远程桌面（RDP 或
 VNC）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
